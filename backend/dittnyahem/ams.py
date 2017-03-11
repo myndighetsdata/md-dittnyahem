@@ -14,16 +14,21 @@ demoTime = {
 }
 
 class Employer(object):
-    def __init__(self, name, count):
+    def __init__(self, name, amount):
         self.name = name
-        self.count = count
+        self.amount = amount
+
+class Occupation(object):
+    def __init__(self, name, jobs):
+        self.name = name
+        self.jobs = jobs
 
 class SearchResponse(object):
-    def __init__(self, municipalName, municipalCode, employers, openPositions, sfi):
+    def __init__(self, municipalName, municipalCode, employers, occupations, sfi):
         self.municipalName = municipalName
         self.municipalCode = municipalCode
         self.employers = employers
-        self.openPositions = openPositions
+        self.occupations = occupations
         self.sfi = sfi
 
 
@@ -36,7 +41,7 @@ class AmsClient(object):
         employers = data["Employers"]
         returnData = []
         for name, count in zip(employers, counts):
-            returnData.append({"name" : name, "jobs": count})
+            returnData.append(Employer(name.encode("utf-8"), count))
 
         return returnData
 
@@ -47,7 +52,7 @@ class AmsClient(object):
         for occupationId, count in zip(occupations, counts):
             occupationName = oCodeToName.get(occupationId, "")
 
-            returnData.append({"name" : occupationName, "jobs": count})
+            returnData.append(Occupation(occupationName, count))
 
         return returnData
 
@@ -80,13 +85,15 @@ class AmsClient(object):
                 result[name] = amount
 
 
-        return {
-            "municipalName": mCodeToName.get(code, "").capitalize(),
-             "municipalCode": kommunId,
-            "employers": employers,
-            "occupations": occupations,
-            "sfi": True
-        }
+        sr = SearchResponse(
+            mCodeToName.get(code, "").capitalize(),
+            kommunId,
+            employers,
+            occupations,
+            True
+        )
+
+        return sr
 
 
 if __name__ == '__main__':
