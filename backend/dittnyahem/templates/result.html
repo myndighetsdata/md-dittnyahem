@@ -14,6 +14,7 @@
       .input-group { margin-bottom: 5px; }
       #wrap { margin: 0 auto; max-width: 800px; margin-bottom: 100px; }
       .alert .list-inline a { color: #3c763d; }
+      button { margin-bottom: 5px !important; }
       @media (max-width: 768px)
       {
         #content { margin-left: 8px; margin-right: 8px; }
@@ -27,7 +28,7 @@
     <div id="wrap">
 
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-8">
       <br>
         <div style="float: left; margin-bottom: 20px;">
           <img id="house" src="img/house.svg" style="width: 106px; margin: 10px;"/>
@@ -35,26 +36,51 @@
         <div>
           <h1 id="name" style="line-height: 86px;">{{sr.municipalName}}</h1>
         </div>
+
+      <div class="row extra">
+      <div class="col-md-11">
+        <h3>Allmänt</h3>
+        <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-education" aria-hidden="true"></span> Grundskola</button>
+        <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Sjukvård</button>
+        <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Internet</button>
+        <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Sophantering</button>
+        <button type="button" class="btn btn-info"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Polis</button>
+        <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-apple" aria-hidden="true"></span> Mataffärer</button>
+        <button type="button" class="btn btn-info"><span class="glyphicon glyphicon-tint" aria-hidden="true"></span> Badplatser</button>
+        <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-forward" aria-hidden="true"></span> Bussar</button>
+<!--        <ul class="list-inline">
+          <li><a href=""><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Lediga lägenheter</a></li>
+          <li><a href=""><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Grundskola</a></li>
+          <li><a href=""><span class="glyphicon glyphicon-search" aria-hidden="true"></span> SFI</a></li>
+        </ul>-->
+      </div>
+
+      <div class="col-md-12">
+        <br/>
+        <h3>Länkar</h3>
+        <ul class="list-inline">
+          <li><a href=""><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Leta bostad</a></li>
+          <li><a href=""><span class="glyphicon glyphicon-signal" aria-hidden="true"></span> Hitta.se</a></li>
+          <li><a href="{{sr.sfi.url}}"><span class="glyphicon glyphicon-education" aria-hidden="true"></span> SFI</a></li>
+          <li><a href=""><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> {{sr.municipalName}} kommun</a></li>
+        </ul>
+      </div>
+
+      </div>
+      </div> <!-- row extra -->
+
+      <div class="col-md-3" style="max-width: 200px; margin: 0 auto;">
+        <br/>
+        <img src="img/maps/{{sr.municipalCode}}.svg"/>
       </div>
     </div>
 
     <div class="row" id="content">
 
-      <div>
-        <div class="alert alert-success" role="alert">
-        <ul class="list-inline">
-
-          {% for entry in sr.employers[0:4] %}
-            <li><a href=""><span class="glyphicon glyphicon-search" aria-hidden="true"></span> {{entry.name}} ({{entry.amount}}) </a></li>
-          {% endfor %}
-        </ul>
-        </div>
-      </div>
 
       <div class="col-md-12">
-        <h3>Matchande yrken</h3>
+        <h3>Matchande yrken & arbetsgivare</h3>
         <ul class="list-inline">
-
           {% for entry in sr.occupations %}
             <li><a href="">{{entry.name}}</a></li>
           {% endfor %}
@@ -63,23 +89,13 @@
       </div>
 
       <div class="col-md-12">
-        <h3>Allmänt & fler länkar</h3>
+        <div class="alert alert-success" role="alert">
         <ul class="list-inline">
-          <li><a href=""><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Lediga lägenheter</a></li>
-          <li><a href=""><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Grundskola</a></li>
-          <li><a href="{{sr.sfi.url}}"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> SFI</a></li>
+          {% for entry in sr.employers[0:4] %}
+            <li><a href=""><span class="glyphicon glyphicon-search" aria-hidden="true"></span> {{entry.name}} ({{entry.amount}}) </a></li>
+          {% endfor %}
         </ul>
-      </div>
-
-      <div class="col-md-12">
-        <h3>Fler länkar</h3>
-        <ul class="list-inline">
-          <li><a href=""><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Leta bostad</a></li>
-          <li><a href=""><span class="glyphicon glyphicon-signal" aria-hidden="true"></span> Hitta.se</a></li>
-          <li><a href=""><span class="glyphicon glyphicon-education" aria-hidden="true"></span> SFI</a></li>
-          <li><a href=""><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Överkalix kommun</a></li>
-        </ul>
-        <br/>
+        </div>
       </div>
 
     </div>
@@ -89,8 +105,17 @@
       <div class="col-md-12">
 <!--        <iframe width="800" height="450" src="https://www.youtube.com/embed/T5Vlgzqg34Y" frameborder="0" allowfullscreen></iframe> -->
         <div class="embed-responsive embed-responsive-16by9">
-          <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/sRVaAfDl2Go?autoplay=0&showinfo=0" frameborder="0" allowfullscreen></iframe>
+          <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{sr.youtubeVideo}}&autoplay=0&showinfo=0" frameborder="0" allowfullscreen></iframe>
         </div>
+      </div>
+
+      <div class="col-md-12">
+        <br/>
+        <br/>
+        <form action="result.html" method="GET">
+          <button type="submit" class="btn btn-primary btn-lg">Visa nästa alternativ</button>
+        </form>
+
     </div>
 
     </div>

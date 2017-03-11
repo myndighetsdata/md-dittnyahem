@@ -8,10 +8,17 @@ from sfi import codeToUrl
 group = "administration ekonomi Industriell tillverkning"
 
 demoTime = {
-    "0665": "",  # Vaggeryd
+    "0665": "",  # Vaggeryd (Också Hrsr_9dEIfw, eller inte.. )
     "2260": "",  # Ånge
     "0763": "",  # Tingsryd
     "2481": ""  # Lycksele
+}
+
+youtubeVideos = {
+    "0665": "T5Vlgzqg34Y?start=7",  # Vaggeryd (Också Hrsr_9dEIfw, eller inte.. )
+    "2260": "lsgJUpXmw5U?start=0",  # Ånge
+    "0763": "MXsC9fsyEUI?start=0",  # Tingsryd
+    "2481": "w2AX1qMFngU?start=24"  # Lycksele
 }
 
 class SFIEntry(object):
@@ -35,6 +42,7 @@ class SearchResponse(object):
         self.employers = employers
         self.occupations = occupations
         self.sfi = sfi
+        self.youtubeVideo = youtubeVideos[municipalCode]
 
 
 class AmsClient(object):
@@ -65,7 +73,7 @@ class AmsClient(object):
     def search(self):
         year = 2016
 
-        kommunId = 2260
+        kommunId = '2481'
 
         queryString = "(%s) %s %s" % (group, year, kommunId)
         # Let requests encode it
@@ -91,11 +99,11 @@ class AmsClient(object):
 
 
         sr = SearchResponse(
-            mCodeToName.get(kommunId, "").capitalize(),
+            mCodeToName.get(int(kommunId), "").capitalize(),
             kommunId,
             employers,
             occupations,
-            SFIEntry(codeToUrl.get(kommunId, SFIEntry("")))
+            SFIEntry(codeToUrl.get(int(kommunId), SFIEntry("")))
         )
 
         return sr
