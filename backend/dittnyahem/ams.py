@@ -3,6 +3,7 @@ import requests
 import json
 from municipalityCodes import codeToName as mCodeToName
 from occupationCodes import codeToName as oCodeToName
+from sfi import codeToUrl
 
 group = "administration ekonomi Industriell tillverkning"
 
@@ -12,6 +13,10 @@ demoTime = {
     "0763": "",  # Tingsryd
     "2481": ""  # Lycksele
 }
+
+class SFIEntry(object):
+    def __init__(self, url):
+        self.url = url
 
 class Employer(object):
     def __init__(self, name, amount):
@@ -60,7 +65,7 @@ class AmsClient(object):
     def search(self):
         year = 2016
 
-        kommunId = "2513"
+        kommunId = 2260
 
         queryString = "(%s) %s %s" % (group, year, kommunId)
         # Let requests encode it
@@ -86,11 +91,11 @@ class AmsClient(object):
 
 
         sr = SearchResponse(
-            mCodeToName.get(code, "").capitalize(),
+            mCodeToName.get(kommunId, "").capitalize(),
             kommunId,
             employers,
             occupations,
-            True
+            SFIEntry(codeToUrl.get(kommunId, SFIEntry("")))
         )
 
         return sr

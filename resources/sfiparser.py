@@ -13,17 +13,16 @@ rest = data[1:]
 headerParts = header.split(",")
 
 output = []
-for line in rest:
 
-    content = line.split("|")
-    municipalCode = long(content[4])
-    url = content[15]
+with open("sfi.py", "wb") as fp:
+
+    fp.write("codeToUrl = {\n")
+    for line in rest:
+        content = line.split("|")
+        municipalCode = long(content[4])
+        url = content[15]
+        fp.write("%s: \"%s\",\n" % (municipalCode, url))
+    fp.write("}\n")
 
 
-    output.append({
-        "municipalCode": municipalCode,
-        "url": url
-    })
-
-open("sfi.json", "wb").write(json.dumps(output))
 
