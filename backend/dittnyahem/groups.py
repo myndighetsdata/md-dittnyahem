@@ -32,4 +32,7 @@ def getGroupString(formData):
         if entry:
             result.append(source.get(key))
 
+    if not result:
+        result.append(source.get("work0"))
+
     return " ".join(result)

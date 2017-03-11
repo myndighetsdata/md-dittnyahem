@@ -76,26 +76,19 @@ class AmsClient(object):
 
         queryString = "(%s) %s %s" % (keywords, year, kommunId)
         # Let requests encode it
+        #queryString = "(f%C3%B6rsvaret%20milit%C3%A4r)%202016%202481"
         r = requests.get("http://13.74.12.222:8080/realtime1/" + queryString)
         content = json.loads(r.text)
 
         del content["retrieval_time"]
         rest = content.values()[0]
 
-        employers = self.parseEmployers(rest["employers"])
-        occupations = self.parseOccupations(rest["occupations"])
-
-        data = rest["kommunkoder_total"]
-
-        result = {}
-        # Pull out only the ones that has a value
-        for code, amount in data.iteritems():
-            code = long(code)
-            amount = long(amount)
-            if amount > 0:
-                name = mCodeToName.get(code, "")
-                result[name] = amount
-
+        employers = []
+        if "employers" in rest:
+            employers = self.parseEmployers(rest["employers"])
+        occupations = []
+        if "occupations" in rest:
+            occupations = self.parseOccupations(rest["occupations"])
 
         mName = mCodeToName.get(int(kommunId), "").capitalize()
         sr = SearchResponse(
@@ -112,7 +105,7 @@ class AmsClient(object):
 
 if __name__ == '__main__':
     ams = AmsClient()
-    ams.search()
+    ams.search("")
 
 
 
