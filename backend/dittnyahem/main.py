@@ -17,6 +17,8 @@ def main():
     logging.basicConfig(stream=sys.stdout, level=getattr(logging, log_level),
                         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
+
+
     web_job = gevent.spawn(web.start_web, web_port, web_debug)
     web_job.join()
 
