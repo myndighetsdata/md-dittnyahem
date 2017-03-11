@@ -4,9 +4,7 @@ import json
 from municipalityCodes import codeToName as mCodeToName
 from occupationCodes import codeToName as oCodeToName
 from sfi import codeToUrl
-
-group = "administration ekonomi Industriell tillverkning"
-
+from polisen import stationer
 demoTime = {
     "0665": "",  # Vaggeryd (Också Hrsr_9dEIfw, eller inte.. )
     "2260": "",  # Ånge
@@ -36,13 +34,14 @@ class Occupation(object):
         self.jobs = jobs
 
 class SearchResponse(object):
-    def __init__(self, municipalName, municipalCode, employers, occupations, sfi):
+    def __init__(self, municipalName, municipalCode, employers, occupations, sfi, polis):
         self.municipalName = municipalName
         self.municipalCode = municipalCode
         self.employers = employers
         self.occupations = occupations
         self.sfi = sfi
         self.youtubeVideo = youtubeVideos[municipalCode]
+        self.polis = polis
 
 
 class AmsClient(object):
@@ -70,12 +69,12 @@ class AmsClient(object):
         return returnData
 
 
-    def search(self):
+    def search(self, keywords):
         year = 2016
 
         kommunId = '2481'
 
-        queryString = "(%s) %s %s" % (group, year, kommunId)
+        queryString = "(%s) %s %s" % (keywords, year, kommunId)
         # Let requests encode it
         r = requests.get("http://13.74.12.222:8080/realtime1/" + queryString)
         content = json.loads(r.text)
@@ -98,12 +97,14 @@ class AmsClient(object):
                 result[name] = amount
 
 
+        mName = mCodeToName.get(int(kommunId), "").capitalize()
         sr = SearchResponse(
-            mCodeToName.get(int(kommunId), "").capitalize(),
+            mName,
             kommunId,
             employers,
             occupations,
-            SFIEntry(codeToUrl.get(int(kommunId), SFIEntry("")))
+            SFIEntry(codeToUrl.get(int(kommunId), SFIEntry(""))),
+            stationer.get(mName.lower(), False)
         )
 
         return sr

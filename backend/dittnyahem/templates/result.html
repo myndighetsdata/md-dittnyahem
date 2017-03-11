@@ -44,7 +44,10 @@
         <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Sjukvård</button>
         <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Internet</button>
         <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Sophantering</button>
-        <button type="button" class="btn btn-info"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Polis</button>
+        {% if sr.polis %}
+          <button type="button" class="btn btn-info"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Polis</button>
+        {% endif %}
+
         <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-apple" aria-hidden="true"></span> Mataffärer</button>
         <button type="button" class="btn btn-info"><span class="glyphicon glyphicon-tint" aria-hidden="true"></span> Badplatser</button>
         <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-forward" aria-hidden="true"></span> Bussar</button>

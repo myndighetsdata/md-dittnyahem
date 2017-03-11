@@ -6,7 +6,7 @@ from gevent.pywsgi import WSGIServer
 #from flask.ext.cors import CORS
 
 from ams import AmsClient
-
+from groups import getGroupString
 logger = logging.getLogger(__name__)
 
 
@@ -25,10 +25,9 @@ def start_web(port, web_debug):
 
     @app.route("/search", methods=["POST"])
     def search():
-        workGroups = [1, 2, 3]
-
-        sr = client.search()
-
+        # Pass the raw form data
+        groupString = getGroupString(request.form)
+        sr = client.search(groupString)
 
         return render_template("result.html", sr=sr)
 
