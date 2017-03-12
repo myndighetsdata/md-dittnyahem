@@ -37,6 +37,15 @@ class SearchResponse(object):
     def __init__(self, municipalName, municipalCode, employers, occupations, sfi, polis):
         self.municipalName = municipalName
         self.municipalCode = municipalCode
+        if municipalName[-1] in ['x','s','a','e','u','i','ö','y','o','ä','å']:
+            self.municipalNameFull = '%s kommun' % self.municipalName
+        else:
+            self.municipalNameFull = '%ss kommun' % self.municipalName
+        swedishCharacters = [('å','a'),('ä','a'),('ö','o')]
+        s = self.municipalName
+        for (a,b) in swedishCharacters:
+            s = s.replace(a,b)
+        self.municipalURL = 'http://www.%s.se' % s
         self.employers = employers
         self.occupations = occupations
         self.sfi = sfi
