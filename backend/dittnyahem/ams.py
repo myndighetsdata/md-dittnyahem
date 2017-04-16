@@ -1,16 +1,17 @@
 # coding=utf-8
 import requests
+import random
 import json
 from municipalityCodes import codeToName as mCodeToName
 from occupationCodes import codeToName as oCodeToName
 from sfi import codeToUrl
 from polisen import stationer
-demoTime = {
-    "0665": "",  # Vaggeryd (Också Hrsr_9dEIfw, eller inte.. )
-    "2260": "",  # Ånge
-    "0763": "",  # Tingsryd
-    "2481": ""  # Lycksele
-}
+demoMunicipalities = [
+    "0665",  # Vaggeryd (Också Hrsr_9dEIfw, eller inte.. )
+    "2260",  # Ånge
+    "0763",  # Tingsryd
+    "2481"   # Lycksele
+]
 
 youtubeVideos = {
     "0665": "T5Vlgzqg34Y?start=7",  # Vaggeryd (Också Hrsr_9dEIfw, eller inte.. )
@@ -81,7 +82,8 @@ class AmsClient(object):
     def search(self, keywords):
         year = 2016
 
-        kommunId = '2481'
+        i = random.randint( 0, len(demoMunicipalities)-1 )
+        kommunId = demoMunicipalities[i]
 
         queryString = "(%s) %s %s" % (keywords, year, kommunId)
         # Let requests encode it
